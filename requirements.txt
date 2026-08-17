@@ -1,0 +1,97 @@
+# ============================================================================
+# AI Credit Risk Assessment System - Dependencies
+# Python 3.8+ Required
+# ============================================================================
+
+# Core Data Science Libraries
+# ----------------------------------------------------------------------------
+numpy>=1.24.3,<2.0.0          # Numerical computing
+pandas>=2.0.3,<3.0.0          # Data manipulation and analysis
+scipy>=1.11.1,<2.0.0          # Scientific computing
+
+# Machine Learning Frameworks
+# ----------------------------------------------------------------------------
+scikit-learn>=1.3.0,<2.0.0    # Machine learning algorithms
+xgboost>=2.0.0,<3.0.0         # Gradient boosting (primary model)
+lightgbm>=4.0.0,<5.0.0        # Light gradient boosting (alternative)
+imbalanced-learn>=0.11.0      # SMOTE for class imbalance handling
+
+# Model Explainability (XAI)
+# ----------------------------------------------------------------------------
+shap>=0.42.1                  # SHAP values for model interpretability
+lime>=0.2.0                   # LIME for local explanations
+
+# Web Application & UI
+# ----------------------------------------------------------------------------
+streamlit>=1.26.0,<2.0.0      # Interactive web dashboard
+streamlit-option-menu>=0.3.6  # Enhanced UI components
+
+# Data Visualization
+# ----------------------------------------------------------------------------
+matplotlib>=3.7.2,<4.0.0      # Plotting library
+seaborn>=0.12.2,<1.0.0        # Statistical visualizations
+plotly>=5.16.1,<6.0.0         # Interactive plots
+
+# Utilities
+# ----------------------------------------------------------------------------
+joblib>=1.3.1                 # Model serialization
+pyyaml>=6.0.1                 # YAML configuration files
+python-dotenv>=1.0.0          # Environment variable management
+tqdm>=4.65.0                  # Progress bars
+argparse>=1.4.0               # Command-line argument parsing (built-in but explicit)
+
+# Testing & Quality Assurance
+# ----------------------------------------------------------------------------
+pytest>=7.4.0,<8.0.0          # Testing framework
+pytest-cov>=4.1.0             # Code coverage reports
+pytest-mock>=3.11.1           # Mocking for tests
+
+# Development Tools
+# ----------------------------------------------------------------------------
+black>=23.7.0                 # Code formatting
+flake8>=6.0.0                 # Linting
+isort>=5.12.0                 # Import sorting
+mypy>=1.4.1                   # Static type checking
+pre-commit>=3.3.3             # Git hooks for quality checks
+
+# Jupyter & Notebooks
+# ----------------------------------------------------------------------------
+jupyter>=1.0.0                # Jupyter metapackage
+notebook>=6.5.4,<7.0.0        # Jupyter notebook
+ipython>=8.12.0               # Enhanced Python shell
+ipywidgets>=8.1.0             # Interactive widgets for notebooks
+nbconvert>=7.7.3              # Convert notebooks to other formats
+
+# Additional Data Science Tools
+# ----------------------------------------------------------------------------
+openpyxl>=3.1.2               # Excel file support
+xlrd>=2.0.1                   # Excel file reading
+
+# Optional: GPU Support
+# ----------------------------------------------------------------------------
+# Uncomment for GPU-accelerated training (requires CUDA)
+# xgboost[gpu]>=2.0.0
+
+# Optional: Production Deployment
+# ----------------------------------------------------------------------------
+# gunicorn>=21.2.0            # WSGI server (Linux/Mac)
+# waitress>=2.1.2             # WSGI server (Windows)
+
+# ============================================================================
+# Installation Instructions:
+# 
+# Basic installation:
+#   pip install -r requirements.txt
+#
+# With GPU support:
+#   pip install xgboost[gpu]
+#
+# Development installation (includes all dev tools):
+#   pip install -r requirements.txt
+#
+# Create virtual environment first (recommended):
+#   python -m venv venv
+#   venv\Scripts\activate  (Windows)
+#   source venv/bin/activate  (Linux/Mac)
+#   pip install -r requirements.txt
+# ============================================================================

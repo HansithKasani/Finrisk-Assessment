@@ -1,0 +1,232 @@
+model:
+  name: "XGBoost Credit Risk Classifier"
+  version: "1.0.0"
+  type: "gradient_boosting"
+  
+  hyperparameters:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 1
+    gamma: 0
+    objective: "binary:logistic"
+    eval_metric: "auc"
+    random_state: 42
+
+data:
+  raw_path: "Data/raw/"
+  processed_path: "Data/processed/"
+  train_test_split: 0.8
+  random_state: 42
+  stratify: true
+  
+  preprocessing:
+    handle_missing: "median"  # For numerical, mode for categorical
+    outlier_detection: true
+    outlier_method: "iqr"
+    
+  encoding:
+    categorical_encoder: "OrdinalEncoder"
+    handle_unknown: "use_encoded_value"
+    unknown_value: -1
+    
+  scaling:
+    enabled: true
+    scaler_type: "StandardScaler"
+    
+  balancing:
+    method: "smote"
+    ratio: 1.0  # 1:1 ratio
+    apply_to: "training_only"
+
+features:
+  total_count: 85
+  categories:
+    demographics:
+      count: 9
+      features:
+        - age
+        - gender
+        - marital_status
+        - education
+        - employment_type
+        - years_employed
+        - residence_type
+        - state
+        - zip_code
+    
+    financial:
+      count: 15
+      features:
+        - annual_income
+        - monthly_income
+        - existing_debt
+        - monthly_debt_payment
+        - total_assets
+        - savings_account_balance
+        - investment_balance
+        - monthly_expenses
+        - emergency_fund
+        - other_income
+        - bonus_income
+        - rental_income
+        - investment_income
+        - pension_income
+        - other_income_sources
+    
+    credit_bureau:
+      count: 6
+      features:
+        - credit_score
+        - num_credit_inquiries
+        - num_accounts
+        - num_delinquencies
+        - credit_utilization_ratio
+        - payment_history
+    
+    engineered:
+      count: 3
+      features:
+        - credit_to_income_ratio
+        - debt_to_income_ratio
+        - savings_to_debt_ratio
+    
+    other:
+      count: 50
+      description: "Historical, behavioral, and derived features"
+
+performance:
+  target_metrics:
+    accuracy: 0.85
+    precision: 0.80
+    recall: 0.75
+    f1_score: 0.75
+    roc_auc: 0.85
+  
+  threshold:
+    default: 0.50
+    optimized: 0.20
+    reasoning: "Minimize false negatives (high-risk applicants missed)"
+  
+  monitoring:
+    enabled: true
+    drift_detection: true
+    performance_degradation_threshold: 0.80
+    retraining_frequency: "quarterly"
+
+training:
+  algorithm: "XGBoost"
+  task: "binary_classification"
+  sample_size: 307511
+  cross_validation_folds: 5
+  early_stopping_rounds: 50
+  early_stopping_metric: "auc"
+  
+  class_imbalance:
+    ratio: "8:1"
+    handling: "SMOTE"
+    synthetic_samples_training_only: true
+
+explainability:
+  methods:
+    - "SHAP"
+    - "LIME"
+  
+  shap_settings:
+    explainer_type: "TreeExplainer"
+    check_additivity: false
+    max_samples: 1000
+  
+  lime_settings:
+    num_samples: 5000
+    kernel_width: "auto"
+    max_features: 10
+
+deployment:
+  environment: "production"
+  platform: "docker"
+  port: 8501
+  host: "0.0.0.0"
+  
+  api:
+    framework: "flask"
+    api_port: 5000
+    request_timeout: 30
+    max_batch_size: 1000
+  
+  database:
+    type: "postgresql"
+    connection_pool: 10
+    log_queries: true
+  
+  caching:
+    enabled: true
+    backend: "redis"
+    ttl_seconds: 3600
+
+logging:
+  level: "INFO"
+  format: "json"  # or "text"
+  output:
+    - "console"
+    - "file"
+  file_path: "logs/app.log"
+  rotation:
+    when: "midnight"
+    backup_count: 7
+
+security:
+  ssl_enabled: true
+  auth_required: true
+  auth_type: "api_key"  # or "oauth2"
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+  
+  cors:
+    enabled: true
+    allowed_origins:
+      - "http://localhost:3000"
+      - "https://example.com"
+  
+  secrets_management:
+    backend: "aws_secrets_manager"  # or "azure_keyvault", "vault"
+    rotation_enabled: true
+    rotation_days: 90
+
+monitoring:
+  enabled: true
+  
+  metrics:
+    - request_count
+    - response_time
+    - error_rate
+    - model_accuracy
+    - data_drift_score
+  
+  alerts:
+    error_rate_threshold: 0.05
+    response_time_threshold: 5000  # ms
+    model_accuracy_threshold: 0.80
+  
+  export:
+    prometheus: true
+    cloudwatch: false
+    datadog: false
+
+feature_store:
+  enabled: false
+  backend: "feast"  # or "tecton"
+  materialize_online: false
+
+model_registry:
+  enabled: true
+  backend: "mlflow"  # or "wandb"
+  track_experiments: true
+
+batch_processing:
+  enabled: true
+  chunk_size: 1000
+  parallel_workers: 4
