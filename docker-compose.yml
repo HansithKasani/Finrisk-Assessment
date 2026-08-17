@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  credit-risk-app:
+    build: .
+    container_name: credit-risk-assessment
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./Data:/app/Data
+      - ./Models:/app/Models
+      - ./reports:/app/reports
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
